@@ -14,7 +14,8 @@ public class Regexplab {
 
     public static void main(String[] args) {
 
-        System.out.println(removeNumbers(removeNamesStage1("Hi, I'm Jack! And today we will talk about Octagon. BTW my phone number is 89261940493!")));
+        System.out.println(removeNamesStage2(removeNumbers(removeNamesStage1(
+                "Hi, I'm Wheeler (Andrew)! And today we will talk about Octagon. BTW my phone number is 89261940493!. Wheeler is nickname for truckers."))));
         System.out.println("Names found:");
         for(String name : names){
             System.out.println(name);
@@ -23,16 +24,23 @@ public class Regexplab {
     public static String removeNamesStage1(String nameString){
         String out = "";
         Integer lastEnd = 0;
-        Pattern p = Pattern.compile("[^!?.,] [A-Z][^\\s][a-z]+");
+        Pattern p = Pattern.compile("[^!?.\\s]\\s?[A-Z][a-z]+");
         Matcher m = p.matcher(nameString);
         while(m.find()){
-            out+=nameString.substring(lastEnd, m.start()+1)+ " [censored]";
-            names.add(nameString.substring(m.start()+2, m.end()));
+            out+=nameString.substring(lastEnd, m.start()+1)+ "[censored]";
+            names.add(nameString.substring(m.start()+1, m.end()).trim());
             lastEnd = m.end();
         }
         out+=nameString.substring(lastEnd);
         return out;
 
+    }
+
+    public static String removeNamesStage2(String nameString){
+        for(String name : names){
+            nameString = nameString.replace(name, "[censored]");
+        }
+        return  nameString;
     }
 
     public static String removeNumbers(String nameString){
