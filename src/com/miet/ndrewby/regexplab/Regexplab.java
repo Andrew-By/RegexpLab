@@ -9,22 +9,23 @@ import java.util.regex.Pattern;
  */
 public class Regexplab {
     public static void main(String[] args) {
-        System.out.println(removeNumbers(removeNames("Hi, I'm Jack! And today we will talk about Octagon.")));
+        System.out.println(removeNumbers(removeNames("Hi, I'm Jack! And today we will talk about Octagon. BTW my phone number is 89261940493!")));
     }
     public static String removeNames(String nameString){
         String out = "";
         Integer lastEnd = 0;
-        Pattern p = Pattern.compile("[^!?.] [A-Z][a-z]+");
+        Pattern p = Pattern.compile("[^!?.,] [A-Z][^ ][a-z]+");
         Matcher m = p.matcher(nameString);
         while(m.find()){
             out+=nameString.substring(lastEnd, m.start()+1)+ " [censored]";
             lastEnd = m.end();
         }
+        out+=nameString.substring(lastEnd);
         return out;
 
     }
 
     public static String removeNumbers(String nameString){
-        return nameString.replaceAll("^*\\d{7,12}$", "[censored]");
+        return nameString.replaceAll("\\d{7,12}", "[censored]");
     }
 }
